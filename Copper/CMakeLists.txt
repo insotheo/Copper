@@ -6,4 +6,11 @@ file(GLOB SOURCES
 src/*.cpp
 )
 
-add_executable("copper" "${SOURCES}")
+file(GLOB HEADERS
+src/*.hpp
+src/Token/*.hpp
+)
+
+add_executable("copper" "${SOURCES}" "${HEADERS}")
+
+include_directories(src/)
