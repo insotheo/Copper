@@ -1,2 +1,2 @@
-# Copper
+# CopperScript
 Simple programing language
