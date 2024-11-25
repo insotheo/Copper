@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <string>
+#include <unordered_map>
+#include <vector>
 
 #include "Token/TokenType.hpp"
 #include "Lexer/Lexer.hpp"
@@ -13,10 +15,19 @@ namespace Copper{
     public:
         Parser(const Lexer& lexer): lexer(lexer){}
 
-        void ParseExpression();
+        void Parse();
 
     private:
         Lexer lexer;
+        Token token;
+
+        inline void goNext() {token = lexer.NextToken();}
+
+        void ParseStatement();
+        void ParseExpression();
+        void ParseAssignment();
+        void ParseDeclaration();
+
     };
 
 }

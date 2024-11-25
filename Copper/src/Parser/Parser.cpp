@@ -2,21 +2,46 @@
 
 namespace Copper{
 
-    void Parser::ParseExpression(){
-        Token token = lexer.NextToken();
+    void Parser::Parse(){
+        token = lexer.NextToken();
 
         while(token.type != TokenType::End){
             if(token.type == TokenType::Invalid){
                 throw std::runtime_error("Invalid token: '" + (std::string)token.value + "'");
             }
-
-            if(token.type == TokenType::SingleCharText){
-                std::cout << token.value << "\n";
+            else if(token.type == TokenType::CommandEnd){
+                goNext();
             }
-
-            token = lexer.NextToken();
+            else{
+                ParseStatement();
+                goNext();
+            }
         }
 
+    }
+
+    void Parser::ParseStatement(){
+        if(token.type == TokenType::INT 
+        || token.type == TokenType::FLOAT 
+        || token.type == TokenType::STRING 
+        || token.type == TokenType::CHAR 
+        || token.type == TokenType::BOOLEAN)
+        {
+            ParseDeclaration();
+        }
+    }
+
+    void Parser::ParseExpression(){
+
+    }
+
+    void Parser::ParseAssignment(){
+
+    }
+
+    void Parser::ParseDeclaration(){
+        goNext();
+        std::cout << token.value << "\n";
     }
 
 }

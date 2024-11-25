@@ -51,11 +51,8 @@ namespace Copper{
                     pos++;
                 }
 
-                if(identifier == "func"){
-                    return {TokenType::Function, "func"};
-                }
                 //data types
-                else if(identifier == "int"){
+                if(identifier == "int"){
                     return {TokenType::INT, "int"};
                 }
                 else if(identifier == "float"){
@@ -120,7 +117,9 @@ namespace Copper{
             }
 
             //if everything is false
-            return {TokenType::Invalid, std::to_string(cChar)};
+            std::string invalidChar;
+            invalidChar += cChar;
+            return {TokenType::Invalid, invalidChar};
         }
         return {TokenType::End, ""};
     }

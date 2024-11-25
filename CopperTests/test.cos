@@ -1,1 +1,3 @@
-?
+string name;
+int age; char genderShort;
+string genderFull;

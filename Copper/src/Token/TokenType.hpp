@@ -13,7 +13,6 @@ namespace Copper{
         RightBrace, LeftBrace, 
 
         //KeyWords
-        Function,
         INT, FLOAT, STRING, CHAR, BOOLEAN
     };
 

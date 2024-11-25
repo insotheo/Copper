@@ -13,6 +13,7 @@ src/*.hpp
 src/Token/*.hpp
 src/Lexer/*.hpp
 src/Parser/*.hpp
+src/LangDefs/*.hpp
 )
 
 add_executable("copper" "${SOURCES}" "${HEADERS}")

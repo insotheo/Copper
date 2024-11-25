@@ -34,7 +34,7 @@ int main(int argc, char* argv[]){
 
         Copper::Lexer lexer(input);
         Copper::Parser parser(lexer);
-        parser.ParseExpression();
+        parser.Parse();
     }
     catch(std::runtime_error& err){
         std::cerr << err.what() << "\n";
