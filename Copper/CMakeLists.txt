@@ -5,12 +5,14 @@ project(Copper)
 file(GLOB SOURCES
 src/*.cpp
 src/Lexer/*.cpp
+src/Parser/*.cpp
 )
 
 file(GLOB HEADERS
 src/*.hpp
 src/Token/*.hpp
 src/Lexer/*.hpp
+src/Parser/*.hpp
 )
 
 add_executable("copper" "${SOURCES}" "${HEADERS}")

@@ -87,9 +87,36 @@ namespace Copper{
             case ')': pos++; return {TokenType::RightParen, ")"};
             case '{': pos++; return {TokenType::RightBrace, "{"};
             case '}': pos++; return {TokenType::LeftBrace, "}"};
-            case ';': pos++; return {TokenType::Semicolon, ";"};
-            case '"': pos++; return {TokenType::Quotes, "\""};
-            case '\'': pos++; return {TokenType::SingleQuotes, "'"};
+            case ';': pos++; return {TokenType::CommandEnd, ";"};
+            case '"':{
+                std::string textVal;
+                pos++;
+                while(pos < text.size() && text[pos] != '"'){
+                    textVal += text[pos];
+                    pos++;
+                }
+
+                if(pos < text.size() && text[pos] == '"'){
+                    pos++;
+                    return {TokenType::Text, textVal};
+                }
+                else{
+                    throw std::runtime_error("Unterminated string at position: " + std::to_string(pos) + "!");
+                }
+            }
+            case '\'':{
+                pos++;
+                std::string charVal;
+                charVal += text[pos];
+                pos++;
+                if(pos < text.size() && text[pos] == '\''){
+                    pos++;
+                    return {TokenType::SingleCharText, charVal};
+                }
+                else{
+                    throw std::runtime_error("Unterminated char at position: " + std::to_string(pos) + "!");
+                }
+            }
             }
 
             //if everything is false

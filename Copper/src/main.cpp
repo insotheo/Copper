@@ -3,6 +3,9 @@
 #include <sstream>
 #include <string>
 
+#include "Lexer/Lexer.hpp"
+#include "Parser/Parser.hpp"
+
 int main(int argc, char* argv[]){
     try{
         if(argc != 2){
@@ -27,7 +30,11 @@ int main(int argc, char* argv[]){
         std::string input = inputstream->str();
         delete inputstream;
 
-        std::cout << input << "\n";
+        // std::cout << input << "\n"; -- dbg only
+
+        Copper::Lexer lexer(input);
+        Copper::Parser parser(lexer);
+        parser.ParseExpression();
     }
     catch(std::runtime_error& err){
         std::cerr << err.what() << "\n";

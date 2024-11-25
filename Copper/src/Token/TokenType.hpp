@@ -6,8 +6,8 @@ namespace Copper{
     enum class TokenType{
         Plus, Minus, Multiply, Divide, LeftParen, RightParen, Equal, FloatPoint, //Default math's tokens
         Number, Identifier, 
-        Invalid, None, Semicolon, End,
-        Quotes, SingleQuotes, 
+        Invalid, None, CommandEnd, End,
+        Text, SingleCharText, 
 
         //Zones
         RightBrace, LeftBrace, 
