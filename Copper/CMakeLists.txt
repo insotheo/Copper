@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(Copper)
+project(Copper VERSION 0.0.0)
 
 file(GLOB SOURCES
 src/*.cpp
