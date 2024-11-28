@@ -3,11 +3,15 @@
 
 #include <iostream>
 #include <string>
-#include <unordered_map>
+#include <utility>
 #include <vector>
+#include <variant>
+#include <memory>
 
 #include "Token/TokenType.hpp"
 #include "Lexer/Lexer.hpp"
+#include "LangDefs/Variable.hpp"
+#include "LangDefs/DataTypes.hpp"
 
 namespace Copper{
 
@@ -27,6 +31,17 @@ namespace Copper{
         void ParseExpression();
         void ParseAssignment();
         void ParseDeclaration();
+
+        void ParseVariableDeclaration(const std::string& ident, const DataType& type);
+
+        using DataVariant = std::variant<
+            Variable<int>, 
+            Variable<float>, 
+            Variable<char>, 
+            Variable<std::string>, 
+            Variable<bool>
+        >;
+        std::vector<std::pair<const std::string, DataVariant>> m_vars; 
 
     };
 
