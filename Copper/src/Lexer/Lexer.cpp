@@ -79,7 +79,20 @@ namespace Copper{
             case '+': pos++; return {TokenType::Plus, "+"};
             case '-': pos++; return {TokenType::Minus, "-"};
             case '*': pos++; return {TokenType::Multiply, "*"};
-            case '/': pos++; return {TokenType::Divide, "/"};
+            case '/':{
+                pos++;
+                if(text[pos] == '/'){ //check if its a comment
+                    while(pos < text.size()){
+                        if(text[pos] == '\n'){
+                            break;
+                        }
+                        pos++;
+                    }
+                }
+                else{
+                    return {TokenType::Divide, "/"};
+                }
+            }
             case '(': pos++; return {TokenType::LeftParen, "("};
             case ')': pos++; return {TokenType::RightParen, ")"};
             case '{': pos++; return {TokenType::RightBrace, "{"};
