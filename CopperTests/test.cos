@@ -1,2 +1,2 @@
-int age = 3 + 2;
+int age = 3;
 string name;

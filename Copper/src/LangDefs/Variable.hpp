@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 #include <memory>
-#include <map>
+#include <vector>
 
 #include "Token/Token.hpp"
 #include "Token/TokenType.hpp"
@@ -26,14 +26,20 @@ namespace Copper {
         VarVal m_Val;
     };
 
+    struct VarStruct
+    {
+        std::string Identifier;
+        Variable* Var;
+    };
+
     class VariablesManager{
     public:
         void print(); //DBG ONLY
         
         void CreateVariable(const std::string& identifier, const DataType& type);
-        inline Variable* GetVariable(const std::string& identifier) const { return m_Vars.at(identifier); }
+        Variable* GetVariable(const std::string& identifier) const;
     private:
-        std::map<const std::string, Variable*> m_Vars;
+        std::vector<VarStruct> m_Vars;
     };
 
 }
