@@ -4,16 +4,19 @@
 namespace Copper{
 
     enum class TokenType{
-        Plus, Minus, Multiply, Divide, LeftParen, RightParen, Equal, FloatPoint, //Default math's tokens
+        Plus, Minus, Multiply, Divide, LeftParen, RightParen, FloatPoint, //Default math's tokens
         Number, Identifier, 
-        Invalid, None, CommandEnd, End,
+        Invalid, None, CommandEnd, End, ValueSetter,
         Text, SingleCharText, 
 
         //Zones
         RightBrace, LeftBrace, 
 
         //KeyWords
-        INT, FLOAT, STRING, CHAR, BOOLEAN
+        INT, FLOAT, STRING, CHAR, BOOLEAN,
+
+        //Logic
+        TRUE, FALSE,
     };
 
 }

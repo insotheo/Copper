@@ -16,6 +16,10 @@
 
 namespace Copper{
 
+    enum ExpressionType{
+        AfterAssignment, 
+    };
+
     class Parser{
     public:
         Parser(const Lexer& lexer): lexer(lexer){}
@@ -29,14 +33,21 @@ namespace Copper{
         inline void goNext() {token = lexer.NextToken();}
 
         void ParseStatement();
-        void ParseExpression();
+        Token ParseExpression(const ExpressionType& type);
         void ParseAssignment();
+        void ParseAssignment(const std::string& identifier);
         void ParseDeclaration();
 
-        void ParseVariableDeclaration(const std::string& ident, const DataType& type);
+        void ParseVariableDeclaration(const std::string& ident, const DataType& type, bool withInit);
 
         VariablesManager m_VarsManager;
+        
 
+        //Expression parser
+        Token ExecuteExpression();
+        Token factor();
+        Token term();
+        Token expression();
     };
 
 }

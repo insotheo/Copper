@@ -6,6 +6,8 @@
 #include <memory>
 #include <map>
 
+#include "Token/Token.hpp"
+#include "Token/TokenType.hpp"
 #include "LangDefs/DataTypes.hpp"
 
 namespace Copper {
@@ -14,10 +16,10 @@ namespace Copper {
     public:
         Variable(const DataType& type) : m_Type(type) {}
 
-        inline VarVal GetValue() const { return m_Val; }
-        inline void SetValue(const VarVal& val) { m_Val = val; }
+        inline VarVal GetValue() { return m_Val; }
+        void SetValue(const Token* token);
 
-        inline DataType GetType() const { return m_Type; }
+        DataType GetType() const { return m_Type; }
 
     private:
         const DataType m_Type;
