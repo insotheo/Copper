@@ -7,6 +7,7 @@
 #include <vector>
 #include <variant>
 #include <memory>
+#include <typeinfo>
 
 #include "Token/TokenType.hpp"
 #include "Lexer/Lexer.hpp"
@@ -34,14 +35,7 @@ namespace Copper{
 
         void ParseVariableDeclaration(const std::string& ident, const DataType& type);
 
-        using DataVariant = std::variant<
-            Variable<int>, 
-            Variable<float>, 
-            Variable<char>, 
-            Variable<std::string>, 
-            Variable<bool>
-        >;
-        std::vector<std::pair<const std::string, DataVariant>> m_vars; 
+        VariablesManager m_VarsManager;
 
     };
 

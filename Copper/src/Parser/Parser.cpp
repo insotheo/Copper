@@ -17,7 +17,7 @@ namespace Copper{
                 goNext();
             }
         }
-        std::cout << m_vars.size() << "\n";
+        m_VarsManager.print(); //DBG ONLY
     }
 
     void Parser::ParseStatement(){
@@ -55,14 +55,7 @@ namespace Copper{
     }
 
     void Parser::ParseVariableDeclaration(const std::string& ident, const DataType& type){
-        switch (type)
-        {
-        case DataType::INT: m_vars.emplace_back(std::pair(std::move(ident), Variable<int>(type, 0))); break;
-        case DataType::FLOAT: m_vars.emplace_back(std::pair(std::move(ident), Variable<float>(type, 0.0f))); break;
-        case DataType::STRING: m_vars.emplace_back(std::pair(std::move(ident), Variable<std::string>(type, ""))); break;
-        case DataType::CHAR: m_vars.emplace_back(std::pair(std::move(ident), Variable<char>(type, ' '))); break;
-        case DataType::BOOLEAN: m_vars.emplace_back(std::pair(std::move(ident), Variable<bool>(type, false))); break;
-        }
+        m_VarsManager.CreateVariable(ident, type);
     }
 
 }

@@ -6,6 +6,7 @@ file(GLOB SOURCES
 src/*.cpp
 src/Lexer/*.cpp
 src/Parser/*.cpp
+src/LangDefs/*.cpp
 )
 
 file(GLOB HEADERS

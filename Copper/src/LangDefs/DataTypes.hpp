@@ -2,8 +2,12 @@
 #define DATA_TYPES_HPP
 
 #include <iostream>
+#include <string>
+#include <variant>
 
 #include "Token/TokenType.hpp"
+
+typedef std::variant<int, float, std::string, char, bool> VarVal; // VarVal stands for Variable's Value
 
 namespace Copper{
 
@@ -25,6 +29,5 @@ inline Copper::DataType TokenToDataType(const Copper::TokenType& ttype){
         default: throw std::runtime_error("Unexpected data type");
     }
 }
-
 
 #endif
