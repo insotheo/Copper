@@ -67,6 +67,10 @@ namespace Copper{
                 else if(identifier == "char"){
                     return {TokenType::CHAR, "char"};
                 }
+                //key words
+                else if(identifier == "let"){
+                    return {TokenType::LET, "let"};
+                }
                 //identifier
                 else{
                     return {TokenType::Identifier, identifier};

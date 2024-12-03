@@ -13,6 +13,7 @@ namespace Copper{
         RightBrace, LeftBrace, 
 
         //KeyWords
+        LET,
         INT, FLOAT, STRING, CHAR, BOOLEAN,
 
         //Logic

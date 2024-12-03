@@ -21,13 +21,9 @@ namespace Copper{
     }
 
     void Parser::ParseStatement(){
-        if(token.type == TokenType::INT 
-        || token.type == TokenType::FLOAT 
-        || token.type == TokenType::STRING 
-        || token.type == TokenType::CHAR 
-        || token.type == TokenType::BOOLEAN)
+        if(token.type == TokenType::LET)
         {
-            ParseDeclaration();
+            ParseVariableDeclaration();
         }
     }
 
@@ -40,30 +36,26 @@ namespace Copper{
         m_VarsManager.GetVariable(identifier)->SetValue(&token);
     }
 
-    void Parser::ParseDeclaration(){
-        TokenType dataType = token.type; //getting data type
+    void Parser::ParseVariableDeclaration(){
         goNext();
+        std::string identifier;
+        DataType type;
 
-        if(token.type != TokenType::Identifier){
-            throw std::runtime_error("Identifier expected insted of \"" + token.value + "\"!");
-        }
-        std::string identifier = token.value;
-
-        goNext();
-        if(token.type == TokenType::CommandEnd || token.type == TokenType::ValueSetter){
-            ParseVariableDeclaration(identifier, TokenToDataType(dataType), token.type == TokenType::ValueSetter);
-        }
-        else if(token.type == TokenType::RightParen){
-            //func decl
-        }
-    }
-
-    void Parser::ParseVariableDeclaration(const std::string& ident, const DataType& type, bool withInit){
-        m_VarsManager.CreateVariable(ident, type);
-        if(withInit){
+        while(token.type != TokenType::Identifier){
+            if(token.type == TokenType::INT 
+            || token.type == TokenType::FLOAT
+            || token.type == TokenType::STRING
+            || token.type == TokenType::CHAR
+            || token.type == TokenType::BOOLEAN){
+                type = TokenToDataType(token.type);
+            }
+            else{
+                throw std::runtime_error("Unexpected token while declaration variable!");
+            }
             goNext();
-            ParseAssignment(ident);
         }
+        identifier = token.value;
+        m_VarsManager.CreateVariable(identifier, type);
     }
 
 }

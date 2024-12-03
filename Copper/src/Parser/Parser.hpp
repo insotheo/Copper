@@ -36,9 +36,8 @@ namespace Copper{
         Token ParseExpression(const ExpressionType& type);
         void ParseAssignment();
         void ParseAssignment(const std::string& identifier);
-        void ParseDeclaration();
 
-        void ParseVariableDeclaration(const std::string& ident, const DataType& type, bool withInit);
+        void ParseVariableDeclaration();
 
         VariablesManager m_VarsManager;
         
