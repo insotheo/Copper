@@ -1,2 +1,13 @@
-let string name;
-let int age = 3;
+let string phrase;
+let string world;
+let float some_number;
+let float pi;
+let int k;
+
+pi = 3.15 - 0.01;
+k = 2*5;
+
+world = ',' + (" World" + '!');
+phrase = "Hello" + world;
+
+some_number = (10 * k) * pi;

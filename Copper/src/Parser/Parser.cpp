@@ -25,10 +25,21 @@ namespace Copper{
         {
             ParseVariableDeclaration();
         }
+        else if(token.type == TokenType::Identifier){
+            std::string identifier = token.value;
+            goNext();
+            if(token.type == TokenType::ValueSetter){
+                ParseAssignment(identifier);
+            }
+        }
     }
 
     void Parser::ParseAssignment(const std::string& identifier){
-
+        goNext();
+        m_expressionStopToken = TokenType::CommandEnd;
+        VarVal value = ParseExpression();
+        m_expressionStopToken = TokenType::None;
+        m_VarsManager.GetVariable(identifier)->SetValue(value);
     }
 
     void Parser::ParseVariableDeclaration(){

@@ -2,8 +2,8 @@
 
 namespace Copper{
 
-    VarVal Parser::ParseExpression(const TokenType& stopToken){
-        return expression(stopToken);
+    VarVal Parser::ParseExpression(){
+        return expression();
     }
 
     VarVal Parser::factor(){
@@ -11,6 +11,16 @@ namespace Copper{
             float num = std::stof(token.value);
             goNext();
             return num;
+        }
+        if(token.type == TokenType::Text){
+            std::string text = token.value;
+            goNext();
+            return text;
+        }
+        if(token.type == TokenType::SingleCharText){
+            std::string justChar = std::string(1, token.value[0]);
+            goNext();
+            return justChar;
         }
 
         if(token.type == TokenType::Plus || token.type == TokenType::Minus){
@@ -26,13 +36,22 @@ namespace Copper{
             return m_VarsManager.GetVariable(identifier)->GetValue();
         }
 
+        //TODO: Functions
+
+        if(token.type == TokenType::LeftParen){
+            goNext(); //left paren
+            VarVal result = expression();
+            goNext(); //right paren
+            return result;
+        }
+
         throw std::runtime_error("Invalid syntax!");
     }
 
-    VarVal Parser::term(const TokenType& stopToken){
+    VarVal Parser::term(){
         VarVal result = factor();
         while(token.type == TokenType::Multiply || token.type == TokenType::Divide){
-            if(token.type == stopToken){
+            if(token.type == m_expressionStopToken){
                 return result;
             }
 
@@ -49,20 +68,20 @@ namespace Copper{
     }
 
 
-    VarVal Parser::expression(const TokenType& stopToken){
-        VarVal result = term(stopToken);
+    VarVal Parser::expression(){
+        VarVal result = term();
         while(token.type == TokenType::Plus || token.type == TokenType::Minus){
-            if(token.type == stopToken){
+            if(token.type == m_expressionStopToken){
                 return result;
             }
 
             if(token.type == TokenType::Plus){
                 goNext();
-                result = VarValSum(result, term(stopToken));
+                result = VarValSum(result, term());
             }
             else{
                 goNext();
-                result = VarValDif(result, term(stopToken));
+                result = VarValDif(result, term());
             }
         }
         return result;

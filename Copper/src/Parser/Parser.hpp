@@ -16,7 +16,7 @@ namespace Copper{
 
     class Parser{
     public:
-        Parser(const Lexer& lexer): m_lexer(lexer){}
+        Parser(const Lexer& lexer): m_lexer(lexer) {}
 
         void Parse();
 
@@ -30,10 +30,11 @@ namespace Copper{
         void ParseAssignment(const std::string& identifier);
 
         //Parsing expressions
-        VarVal ParseExpression(const TokenType& stopToken);
+        TokenType m_expressionStopToken = TokenType::None;
+        VarVal ParseExpression();
         VarVal factor();
-        VarVal term(const TokenType& stopToken);
-        VarVal expression(const TokenType& stopToken);
+        VarVal term();
+        VarVal expression();
 
         //Declarations parsing
         void ParseVariableDeclaration();
