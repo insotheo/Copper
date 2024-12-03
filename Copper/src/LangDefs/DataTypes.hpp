@@ -10,7 +10,7 @@
 typedef std::variant<int, float, std::string, char, bool> VarVal; // VarVal stands for Variable's Value
 
 namespace Copper{
-
+    
     enum DataType{
         INT, FLOAT, STRING, CHAR, BOOLEAN
     };

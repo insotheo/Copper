@@ -10,6 +10,7 @@
 #include "Lexer/Lexer.hpp"
 #include "LangDefs/Variable.hpp"
 #include "LangDefs/DataTypes.hpp"
+#include "LangDefs/VarValOperators.hpp"
 
 namespace Copper{
 
@@ -27,6 +28,12 @@ namespace Copper{
 
         void ParseStatement();
         void ParseAssignment(const std::string& identifier);
+
+        //Parsing expressions
+        VarVal ParseExpression(const TokenType& stopToken);
+        VarVal factor();
+        VarVal term(const TokenType& stopToken);
+        VarVal expression(const TokenType& stopToken);
 
         //Declarations parsing
         void ParseVariableDeclaration();
