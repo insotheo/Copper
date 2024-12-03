@@ -2,10 +2,8 @@
 
 namespace Copper{
 
-    void Variable::SetValue(const Token* token){
-        if(token->type == TokenType::Number && m_Type == DataType::INT){
-            m_Val = (int)std::stoi(token->value);
-        }
+    void Variable::SetValue(const VarVal& value){
+        m_Val = value;
     }
 
 }

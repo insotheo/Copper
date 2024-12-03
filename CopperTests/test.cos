@@ -1,2 +1,2 @@
 let string name;
-let int age;
+let int age = 3;

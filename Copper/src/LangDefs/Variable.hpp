@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <string>
-#include <memory>
 #include <vector>
 
 #include "Token/Token.hpp"
@@ -17,7 +16,7 @@ namespace Copper {
         Variable(const DataType& type) : m_Type(type) {}
 
         inline VarVal GetValue() { return m_Val; }
-        void SetValue(const Token* token);
+        void SetValue(const VarVal& value);
 
         DataType GetType() const { return m_Type; }
 
