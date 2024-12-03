@@ -3,7 +3,7 @@
 namespace Copper{
 
     void Parser::Parse(){
-        token = lexer.NextToken();
+        goNext();
 
         while(token.type != TokenType::End){
             if(token.type == TokenType::Invalid){
@@ -27,13 +27,8 @@ namespace Copper{
         }
     }
 
-    void Parser::ParseAssignment(){
-        Token token = ParseExpression(ExpressionType::AfterAssignment);
-    }
-
     void Parser::ParseAssignment(const std::string& identifier){
-        Token token = ParseExpression(ExpressionType::AfterAssignment);
-        m_VarsManager.GetVariable(identifier)->SetValue(&token);
+
     }
 
     void Parser::ParseVariableDeclaration(){
