@@ -1,7 +1,1 @@
-let string world = " World!";
-let string phrase = "Hello" + ',' + world;
-let float pi = 3.15 - 0.01;
-let int k = 2*5;
-let uint some_number;
-
-some_number = (10 * k) * pi;
+let char testChar = 'a' + 3;

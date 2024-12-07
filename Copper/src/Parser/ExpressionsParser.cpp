@@ -20,7 +20,7 @@ namespace Copper{
         if(token.type == TokenType::SingleCharText){
             std::string justChar = std::string(1, token.value[0]);
             goNext();
-            return justChar;
+            return (int)justChar[0];
         }
 
         if(token.type == TokenType::Plus || token.type == TokenType::Minus){
