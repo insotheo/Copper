@@ -62,6 +62,10 @@ namespace Copper{
         }
         identifier = token.value;
         m_VarsManager.CreateVariable(identifier, type);
+        goNext();
+        if(token.type == TokenType::ValueAssignment){
+            ParseAssignment(identifier);
+        }
     }
 
 }
