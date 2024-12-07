@@ -20,7 +20,7 @@ namespace Copper{
         for (const auto var : m_Vars) {
             std::cout << (int)(var.Var->GetType()) << " " << var.Identifier;
             std::visit([](const auto& v) {
-                std::cout << " = " << v;
+                std::cout << " = " << v.value;
                 }, var.Var->GetValue());
             std::cout << "\n";
         }

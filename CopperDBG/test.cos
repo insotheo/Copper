@@ -1,1 +1,2 @@
-let char testChar = 'a' + 3;
+let double abc = 2 + 2.4;
+let double x = 1 / (abc * 2);

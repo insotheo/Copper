@@ -6,8 +6,9 @@
 #include <variant>
 
 #include "Token/TokenType.hpp"
+#include "LangDefs/TopDataTypes.hpp"
 
-typedef std::variant<int, unsigned int, short int, long int, float, double, std::string, char, bool> VarVal; // VarVal stands for Variable's Value
+typedef std::variant<Copper::CopperINT, Copper::CopperUINT, Copper::CopperSHORT, Copper::CopperLONG, Copper::CopperFLOAT, Copper::CopperDOUBLE, Copper::CopperSTRING, Copper::CopperCHAR, Copper::CopperBOOLEAN> VarVal; // VarVal stands for Variable's Value
 
 #define IS_NUMBER_TYPE(TYPE) (TYPE == Copper::DataType::INT ||\
                              TYPE == Copper::DataType::UINT ||\
@@ -63,15 +64,15 @@ inline bool IsDataType(const Copper::TokenType& ttype){
 }
 
 inline const Copper::DataType GetVarValType(const VarVal* value){
-    if(std::holds_alternative<int>(*value)) return Copper::DataType::INT;
-    else if(std::holds_alternative<unsigned int>(*value)) return Copper::DataType::UINT;
-    else if(std::holds_alternative<short int>(*value)) return Copper::DataType::SHORT;
-    else if(std::holds_alternative<long int>(*value)) return Copper::DataType::LONG;
-    else if(std::holds_alternative<float>(*value)) return Copper::DataType::FLOAT;
-    else if(std::holds_alternative<double>(*value)) return Copper::DataType::DOUBLE;
-    else if(std::holds_alternative<std::string>(*value)) return Copper::DataType::STRING;
-    else if(std::holds_alternative<char>(*value)) return Copper::DataType::CHAR;
-    else if(std::holds_alternative<bool>(*value)) return Copper::DataType::BOOLEAN;
+    if(std::holds_alternative<Copper::CopperINT>(*value)) return Copper::DataType::INT;
+    else if(std::holds_alternative<Copper::CopperUINT>(*value)) return Copper::DataType::UINT;
+    else if(std::holds_alternative<Copper::CopperSHORT>(*value)) return Copper::DataType::SHORT;
+    else if(std::holds_alternative<Copper::CopperLONG>(*value)) return Copper::DataType::LONG;
+    else if(std::holds_alternative<Copper::CopperFLOAT>(*value)) return Copper::DataType::FLOAT;
+    else if(std::holds_alternative<Copper::CopperDOUBLE>(*value)) return Copper::DataType::DOUBLE;
+    else if(std::holds_alternative<Copper::CopperSTRING>(*value)) return Copper::DataType::STRING;
+    else if(std::holds_alternative<Copper::CopperCHAR>(*value)) return Copper::DataType::CHAR;
+    else if(std::holds_alternative<Copper::CopperBOOLEAN>(*value)) return Copper::DataType::BOOLEAN;
     else throw std::runtime_error("Unknown data type of the value!");
 }
 

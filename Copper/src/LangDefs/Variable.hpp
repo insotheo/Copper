@@ -8,6 +8,7 @@
 #include "Token/Token.hpp"
 #include "Token/TokenType.hpp"
 #include "LangDefs/DataTypes.hpp"
+#include "LangDefs/TopDataTypes.hpp"
 #include "LangDefs/VarValOperators.hpp"
 
 namespace Copper {

@@ -5,85 +5,86 @@
 #include <string>
 
 #include "LangDefs/DataTypes.hpp"
+#include "LangDefs/TopDataTypes.hpp"
 
-#define VARVAL_OP_ACTION(typeL, LHSt, ACTION, typeR, RHS, postfixR) \
-    if (const typeR* rhs_##postfixR = std::get_if<typeR>(RHS)) { \
+#define VARVAL_OP_ACTION(typeL, subtype, LHSt, ACTION, typeR, RHS, postfixR) \
+    if (const typeR* rhs_##postfixR = std::get_if<typeR>(&RHS)) { \
         if constexpr (std::is_same_v<typeL, typeR>) { \
-            return *LHSt ACTION *rhs_##postfixR; \
+            return typeL(LHSt->value ACTION rhs_##postfixR->value); \
         } else { \
-            return *LHSt ACTION static_cast<typeL>(*rhs_##postfixR); \
+            return typeL(LHSt->value ACTION static_cast<subtype>(rhs_##postfixR->value)); \
         } \
     }\
 
 inline const VarVal VarValSum(const VarVal& lhs, const VarVal& rhs){
     //numbers
-    if(const int* lhs_int = std::get_if<int>(&lhs)){ //int
-        VARVAL_OP_ACTION(int, lhs_int, +, int, &rhs, int)
-        VARVAL_OP_ACTION(int, lhs_int, +, unsigned int, &rhs, uint)
-        VARVAL_OP_ACTION(int, lhs_int, +, short int, &rhs, short)
-        VARVAL_OP_ACTION(int, lhs_int, +, long int, &rhs, long)
-        VARVAL_OP_ACTION(int, lhs_int, +, float, &rhs, float)
-        VARVAL_OP_ACTION(int, lhs_int, +, double, &rhs, double)
+    if(const Copper::CopperINT* lhs_int = std::get_if<Copper::CopperINT>(&lhs)){ //int
+        VARVAL_OP_ACTION(Copper::CopperINT, int, lhs_int, +, Copper::CopperINT, rhs, int)
+        VARVAL_OP_ACTION(Copper::CopperINT, int, lhs_int, +, Copper::CopperUINT, rhs, uint)
+        VARVAL_OP_ACTION(Copper::CopperINT, int, lhs_int, +, Copper::CopperSHORT,  rhs, short)
+        VARVAL_OP_ACTION(Copper::CopperINT, int, lhs_int, +, Copper::CopperLONG, rhs, long)
+        VARVAL_OP_ACTION(Copper::CopperINT, int, lhs_int, +, Copper::CopperFLOAT, rhs, float)
+        VARVAL_OP_ACTION(Copper::CopperINT, int, lhs_int, +, Copper::CopperDOUBLE, rhs, double)
     }
 
-    else if(const unsigned int* lhs_uint = std::get_if<unsigned int>(&lhs)){ //uint
-        VARVAL_OP_ACTION(unsigned int, lhs_uint, +, int, &rhs, int)
-        VARVAL_OP_ACTION(unsigned int, lhs_uint, +, unsigned int, &rhs, uint)
-        VARVAL_OP_ACTION(unsigned int, lhs_uint, +, short int, &rhs, short)
-        VARVAL_OP_ACTION(unsigned int, lhs_uint, +, long int, &rhs, long)
-        VARVAL_OP_ACTION(unsigned int, lhs_uint, +, float, &rhs, float)
-        VARVAL_OP_ACTION(unsigned int, lhs_uint, +, double, &rhs, double)
+    else if(const Copper::CopperUINT* lhs_uint = std::get_if<Copper::CopperUINT>(&lhs)){ //uint
+        VARVAL_OP_ACTION(Copper::CopperUINT, unsigned int, lhs_uint, +, Copper::CopperINT, rhs, int)
+        VARVAL_OP_ACTION(Copper::CopperUINT, unsigned int, lhs_uint, +, Copper::CopperUINT, rhs, uint)
+        VARVAL_OP_ACTION(Copper::CopperUINT, unsigned int, lhs_uint, +, Copper::CopperSHORT,  rhs, short)
+        VARVAL_OP_ACTION(Copper::CopperUINT, unsigned int, lhs_uint, +, Copper::CopperLONG, rhs, long)
+        VARVAL_OP_ACTION(Copper::CopperUINT, unsigned int, lhs_uint, +, Copper::CopperFLOAT, rhs, float)
+        VARVAL_OP_ACTION(Copper::CopperUINT, unsigned int, lhs_uint, +, Copper::CopperDOUBLE, rhs, double)
     }
 
-    else if(const short int* lhs_short = std::get_if<short int>(&lhs)){ //short
-        VARVAL_OP_ACTION(short int, lhs_short, +, int, &rhs, int)
-        VARVAL_OP_ACTION(short int, lhs_short, +, unsigned int, &rhs, uint)
-        VARVAL_OP_ACTION(short int, lhs_short, +, short int, &rhs, short)
-        VARVAL_OP_ACTION(short int, lhs_short, +, long int, &rhs, long)
-        VARVAL_OP_ACTION(short int, lhs_short, +, float, &rhs, float)
-        VARVAL_OP_ACTION(short int, lhs_short, +, double, &rhs, double)
+    else if(const Copper::CopperSHORT* lhs_short = std::get_if<Copper::CopperSHORT>(&lhs)){ //short
+        VARVAL_OP_ACTION(Copper::CopperSHORT, short int, lhs_short, +, Copper::CopperINT, rhs, int)
+        VARVAL_OP_ACTION(Copper::CopperSHORT, short int, lhs_short, +, Copper::CopperUINT, rhs, uint)
+        VARVAL_OP_ACTION(Copper::CopperSHORT, short int, lhs_short, +, Copper::CopperSHORT,  rhs, short)
+        VARVAL_OP_ACTION(Copper::CopperSHORT, short int, lhs_short, +, Copper::CopperLONG, rhs, long)
+        VARVAL_OP_ACTION(Copper::CopperSHORT, short int, lhs_short, +, Copper::CopperFLOAT, rhs, float)
+        VARVAL_OP_ACTION(Copper::CopperSHORT, short int, lhs_short, +, Copper::CopperDOUBLE, rhs, double)
     }
 
-    else if(const long int* lhs_long = std::get_if<long int>(&lhs)){ //long
-        VARVAL_OP_ACTION(long int, lhs_long, +, int, &rhs, int)
-        VARVAL_OP_ACTION(long int, lhs_long, +, unsigned int, &rhs, uint)
-        VARVAL_OP_ACTION(long int, lhs_long, +, short int, &rhs, short)
-        VARVAL_OP_ACTION(long int, lhs_long, +, long int, &rhs, long)
-        VARVAL_OP_ACTION(long int, lhs_long, +, float, &rhs, float)
-        VARVAL_OP_ACTION(long int, lhs_long, +, double, &rhs, double)
+    else if(const Copper::CopperLONG* lhs_long = std::get_if<Copper::CopperLONG>(&lhs)){ //long
+        VARVAL_OP_ACTION(Copper::CopperLONG, long int, lhs_long, +, Copper::CopperINT, rhs, int)
+        VARVAL_OP_ACTION(Copper::CopperLONG, long int, lhs_long, +, Copper::CopperUINT, rhs, uint)
+        VARVAL_OP_ACTION(Copper::CopperLONG, long int, lhs_long, +, Copper::CopperSHORT, rhs, short)
+        VARVAL_OP_ACTION(Copper::CopperLONG, long int, lhs_long, +, Copper::CopperLONG, rhs, long)
+        VARVAL_OP_ACTION(Copper::CopperLONG, long int, lhs_long, +, Copper::CopperFLOAT, rhs, float)
+        VARVAL_OP_ACTION(Copper::CopperLONG, long int, lhs_long, +, Copper::CopperDOUBLE, rhs, double)
     }
 
-    else if(const float* lhs_float = std::get_if<float>(&lhs)){ //float
-        VARVAL_OP_ACTION(float, lhs_float, +, int, &rhs, int)
-        VARVAL_OP_ACTION(float, lhs_float, +, unsigned int, &rhs, uint)
-        VARVAL_OP_ACTION(float, lhs_float, +, short int, &rhs, short)
-        VARVAL_OP_ACTION(float, lhs_float, +, long int, &rhs, long)
-        VARVAL_OP_ACTION(float, lhs_float, +, float, &rhs, float)
-        VARVAL_OP_ACTION(float, lhs_float, +, double, &rhs, double)
+    else if(const Copper::CopperFLOAT* lhs_float = std::get_if<Copper::CopperFLOAT>(&lhs)){ //float
+        VARVAL_OP_ACTION(Copper::CopperFLOAT, float, lhs_float, +, Copper::CopperINT, rhs, int)
+        VARVAL_OP_ACTION(Copper::CopperFLOAT, float, lhs_float, +, Copper::CopperUINT, rhs, uint)
+        VARVAL_OP_ACTION(Copper::CopperFLOAT, float, lhs_float, +, Copper::CopperSHORT, rhs, short)
+        VARVAL_OP_ACTION(Copper::CopperFLOAT, float, lhs_float, +, Copper::CopperLONG, rhs, long)
+        VARVAL_OP_ACTION(Copper::CopperFLOAT, float, lhs_float, +, Copper::CopperFLOAT, rhs, float)
+        VARVAL_OP_ACTION(Copper::CopperFLOAT, float, lhs_float, +, Copper::CopperDOUBLE, rhs, double)
     }
 
-    else if(const double* lhs_double = std::get_if<double>(&lhs)){ //double
-        VARVAL_OP_ACTION(double, lhs_double, +, int, &rhs, int)
-        VARVAL_OP_ACTION(double, lhs_double, +, unsigned int, &rhs, uint)
-        VARVAL_OP_ACTION(double, lhs_double, +, short int, &rhs, short)
-        VARVAL_OP_ACTION(double, lhs_double, +, long int, &rhs, long)
-        VARVAL_OP_ACTION(double, lhs_double, +, float, &rhs, float)
-        VARVAL_OP_ACTION(double, lhs_double, +, double, &rhs, double)
+    else if(const Copper::CopperDOUBLE* lhs_double = std::get_if<Copper::CopperDOUBLE>(&lhs)){ //double
+        VARVAL_OP_ACTION(Copper::CopperDOUBLE, double, lhs_double, +, Copper::CopperINT, rhs, int)
+        VARVAL_OP_ACTION(Copper::CopperDOUBLE, double, lhs_double, +, Copper::CopperUINT, rhs, uint)
+        VARVAL_OP_ACTION(Copper::CopperDOUBLE, double, lhs_double, +, Copper::CopperSHORT, rhs, short)
+        VARVAL_OP_ACTION(Copper::CopperDOUBLE, double, lhs_double, +, Copper::CopperLONG, rhs, long)
+        VARVAL_OP_ACTION(Copper::CopperDOUBLE, double, lhs_double, +, Copper::CopperFLOAT, rhs, float)
+        VARVAL_OP_ACTION(Copper::CopperDOUBLE, double, lhs_double, +, Copper::CopperDOUBLE, rhs, double)
     }
 
     //string building
-    else if(const std::string* lhs_str = std::get_if<std::string>(&lhs)){ //string
-        if(const std::string* rhs_str = std::get_if<std::string>(&rhs)){ //string and string
-            return *lhs_str + *rhs_str;
+    else if(const Copper::CopperSTRING* lhs_str = std::get_if<Copper::CopperSTRING>(&lhs)){ //string
+        if(const Copper::CopperSTRING* rhs_str = std::get_if<Copper::CopperSTRING>(&rhs)){ //string and string
+            return Copper::CopperSTRING(lhs_str->value + rhs_str->value);
         }
-        else if(const char* rhs_char = std::get_if<char>(&rhs)){ //string and char
-            return *lhs_str + std::string(1, *rhs_char);
+        else if(const Copper::CopperCHAR* rhs_char = std::get_if<Copper::CopperCHAR>(&rhs)){ //string and char
+            return Copper::CopperSTRING(lhs_str->value + std::string(1, rhs_char->value));
         }
     }
 
-    else if(const char* lhs_char = std::get_if<char>(&lhs)){ //char
-        if(const int* rhs_int = std::get_if<int>(&rhs)){ //char and int
-            return (char)(*lhs_char + *rhs_int);
+    else if(const Copper::CopperCHAR* lhs_char = std::get_if<Copper::CopperCHAR>(&lhs)){ //char
+        if(const Copper::CopperINT* rhs_int = std::get_if<Copper::CopperINT>(&rhs)){ //char and int
+            return Copper::CopperCHAR(lhs_char->value + rhs_int->value);
         }
     }
     
@@ -92,58 +93,58 @@ inline const VarVal VarValSum(const VarVal& lhs, const VarVal& rhs){
 
 inline const VarVal VarValDif(const VarVal& lhs, const VarVal& rhs){
     //numbers
-    if(const int* lhs_int = std::get_if<int>(&lhs)){ //int
-        VARVAL_OP_ACTION(int, lhs_int, -, int, &rhs, int)
-        VARVAL_OP_ACTION(int, lhs_int, -, unsigned int, &rhs, uint)
-        VARVAL_OP_ACTION(int, lhs_int, -, short int, &rhs, short)
-        VARVAL_OP_ACTION(int, lhs_int, -, long int, &rhs, long)
-        VARVAL_OP_ACTION(int, lhs_int, -, float, &rhs, float)
-        VARVAL_OP_ACTION(int, lhs_int, -, double, &rhs, double)
+    if(const Copper::CopperINT* lhs_int = std::get_if<Copper::CopperINT>(&lhs)){ //int
+        VARVAL_OP_ACTION(Copper::CopperINT, int, lhs_int, -, Copper::CopperINT, rhs, int)
+        VARVAL_OP_ACTION(Copper::CopperINT, int, lhs_int, -, Copper::CopperUINT, rhs, uint)
+        VARVAL_OP_ACTION(Copper::CopperINT, int, lhs_int, -, Copper::CopperSHORT,  rhs, short)
+        VARVAL_OP_ACTION(Copper::CopperINT, int, lhs_int, -, Copper::CopperLONG, rhs, long)
+        VARVAL_OP_ACTION(Copper::CopperINT, int, lhs_int, -, Copper::CopperFLOAT, rhs, float)
+        VARVAL_OP_ACTION(Copper::CopperINT, int, lhs_int, -, Copper::CopperDOUBLE, rhs, double)
     }
 
-    else if(const unsigned int* lhs_uint = std::get_if<unsigned int>(&lhs)){ //uint
-        VARVAL_OP_ACTION(unsigned int, lhs_uint, -, int, &rhs, int)
-        VARVAL_OP_ACTION(unsigned int, lhs_uint, -, unsigned int, &rhs, uint)
-        VARVAL_OP_ACTION(unsigned int, lhs_uint, -, short int, &rhs, short)
-        VARVAL_OP_ACTION(unsigned int, lhs_uint, -, long int, &rhs, long)
-        VARVAL_OP_ACTION(unsigned int, lhs_uint, -, float, &rhs, float)
-        VARVAL_OP_ACTION(unsigned int, lhs_uint, -, double, &rhs, double)
+    else if(const Copper::CopperUINT* lhs_uint = std::get_if<Copper::CopperUINT>(&lhs)){ //uint
+        VARVAL_OP_ACTION(Copper::CopperUINT, unsigned int, lhs_uint, -, Copper::CopperINT, rhs, int)
+        VARVAL_OP_ACTION(Copper::CopperUINT, unsigned int, lhs_uint, -, Copper::CopperUINT, rhs, uint)
+        VARVAL_OP_ACTION(Copper::CopperUINT, unsigned int, lhs_uint, -, Copper::CopperSHORT,  rhs, short)
+        VARVAL_OP_ACTION(Copper::CopperUINT, unsigned int, lhs_uint, -, Copper::CopperLONG, rhs, long)
+        VARVAL_OP_ACTION(Copper::CopperUINT, unsigned int, lhs_uint, -, Copper::CopperFLOAT, rhs, float)
+        VARVAL_OP_ACTION(Copper::CopperUINT, unsigned int, lhs_uint, -, Copper::CopperDOUBLE, rhs, double)
     }
 
-    else if(const short int* lhs_short = std::get_if<short int>(&lhs)){ //short
-        VARVAL_OP_ACTION(short int, lhs_short, -, int, &rhs, int)
-        VARVAL_OP_ACTION(short int, lhs_short, -, unsigned int, &rhs, uint)
-        VARVAL_OP_ACTION(short int, lhs_short, -, short int, &rhs, short)
-        VARVAL_OP_ACTION(short int, lhs_short, -, long int, &rhs, long)
-        VARVAL_OP_ACTION(short int, lhs_short, -, float, &rhs, float)
-        VARVAL_OP_ACTION(short int, lhs_short, -, double, &rhs, double)
+    else if(const Copper::CopperSHORT* lhs_short = std::get_if<Copper::CopperSHORT>(&lhs)){ //short
+        VARVAL_OP_ACTION(Copper::CopperSHORT, short int, lhs_short, -, Copper::CopperINT, rhs, int)
+        VARVAL_OP_ACTION(Copper::CopperSHORT, short int, lhs_short, -, Copper::CopperUINT, rhs, uint)
+        VARVAL_OP_ACTION(Copper::CopperSHORT, short int, lhs_short, -, Copper::CopperSHORT,  rhs, short)
+        VARVAL_OP_ACTION(Copper::CopperSHORT, short int, lhs_short, -, Copper::CopperLONG, rhs, long)
+        VARVAL_OP_ACTION(Copper::CopperSHORT, short int, lhs_short, -, Copper::CopperFLOAT, rhs, float)
+        VARVAL_OP_ACTION(Copper::CopperSHORT, short int, lhs_short, -, Copper::CopperDOUBLE, rhs, double)
     }
 
-    else if(const long int* lhs_long = std::get_if<long int>(&lhs)){ //long
-        VARVAL_OP_ACTION(long int, lhs_long, -, int, &rhs, int)
-        VARVAL_OP_ACTION(long int, lhs_long, -, unsigned int, &rhs, uint)
-        VARVAL_OP_ACTION(long int, lhs_long, -, short int, &rhs, short)
-        VARVAL_OP_ACTION(long int, lhs_long, -, long int, &rhs, long)
-        VARVAL_OP_ACTION(long int, lhs_long, -, float, &rhs, float)
-        VARVAL_OP_ACTION(long int, lhs_long, -, double, &rhs, double)
+    else if(const Copper::CopperLONG* lhs_long = std::get_if<Copper::CopperLONG>(&lhs)){ //long
+        VARVAL_OP_ACTION(Copper::CopperLONG, long int, lhs_long, -, Copper::CopperINT, rhs, int)
+        VARVAL_OP_ACTION(Copper::CopperLONG, long int, lhs_long, -, Copper::CopperUINT, rhs, uint)
+        VARVAL_OP_ACTION(Copper::CopperLONG, long int, lhs_long, -, Copper::CopperSHORT, rhs, short)
+        VARVAL_OP_ACTION(Copper::CopperLONG, long int, lhs_long, -, Copper::CopperLONG, rhs, long)
+        VARVAL_OP_ACTION(Copper::CopperLONG, long int, lhs_long, -, Copper::CopperFLOAT, rhs, float)
+        VARVAL_OP_ACTION(Copper::CopperLONG, long int, lhs_long, -, Copper::CopperDOUBLE, rhs, double)
     }
 
-    else if(const float* lhs_float = std::get_if<float>(&lhs)){ //float
-        VARVAL_OP_ACTION(float, lhs_float, -, int, &rhs, int)
-        VARVAL_OP_ACTION(float, lhs_float, -, unsigned int, &rhs, uint)
-        VARVAL_OP_ACTION(float, lhs_float, -, short int, &rhs, short)
-        VARVAL_OP_ACTION(float, lhs_float, -, long int, &rhs, long)
-        VARVAL_OP_ACTION(float, lhs_float, -, float, &rhs, float)
-        VARVAL_OP_ACTION(float, lhs_float, -, double, &rhs, double)
+    else if(const Copper::CopperFLOAT* lhs_float = std::get_if<Copper::CopperFLOAT>(&lhs)){ //float
+        VARVAL_OP_ACTION(Copper::CopperFLOAT, float, lhs_float, -, Copper::CopperINT, rhs, int)
+        VARVAL_OP_ACTION(Copper::CopperFLOAT, float, lhs_float, -, Copper::CopperUINT, rhs, uint)
+        VARVAL_OP_ACTION(Copper::CopperFLOAT, float, lhs_float, -, Copper::CopperSHORT, rhs, short)
+        VARVAL_OP_ACTION(Copper::CopperFLOAT, float, lhs_float, -, Copper::CopperLONG, rhs, long)
+        VARVAL_OP_ACTION(Copper::CopperFLOAT, float, lhs_float, -, Copper::CopperFLOAT, rhs, float)
+        VARVAL_OP_ACTION(Copper::CopperFLOAT, float, lhs_float, -, Copper::CopperDOUBLE, rhs, double)
     }
 
-    else if(const double* lhs_double = std::get_if<double>(&lhs)){ //double
-        VARVAL_OP_ACTION(double, lhs_double, -, int, &rhs, int)
-        VARVAL_OP_ACTION(double, lhs_double, -, unsigned int, &rhs, uint)
-        VARVAL_OP_ACTION(double, lhs_double, -, short int, &rhs, short)
-        VARVAL_OP_ACTION(double, lhs_double, -, long int, &rhs, long)
-        VARVAL_OP_ACTION(double, lhs_double, -, float, &rhs, float)
-        VARVAL_OP_ACTION(double, lhs_double, -, double, &rhs, double)
+    else if(const Copper::CopperDOUBLE* lhs_double = std::get_if<Copper::CopperDOUBLE>(&lhs)){ //double
+        VARVAL_OP_ACTION(Copper::CopperDOUBLE, double, lhs_double, -, Copper::CopperINT, rhs, int)
+        VARVAL_OP_ACTION(Copper::CopperDOUBLE, double, lhs_double, -, Copper::CopperUINT, rhs, uint)
+        VARVAL_OP_ACTION(Copper::CopperDOUBLE, double, lhs_double, -, Copper::CopperSHORT, rhs, short)
+        VARVAL_OP_ACTION(Copper::CopperDOUBLE, double, lhs_double, -, Copper::CopperLONG, rhs, long)
+        VARVAL_OP_ACTION(Copper::CopperDOUBLE, double, lhs_double, -, Copper::CopperFLOAT, rhs, float)
+        VARVAL_OP_ACTION(Copper::CopperDOUBLE, double, lhs_double, -, Copper::CopperDOUBLE, rhs, double)
     }
 
     throw std::runtime_error("Unsupported types for getting difference");
@@ -151,58 +152,58 @@ inline const VarVal VarValDif(const VarVal& lhs, const VarVal& rhs){
 
 inline const VarVal VarValProd(const VarVal& lhs, const VarVal& rhs){
     //numbers
-    if(const int* lhs_int = std::get_if<int>(&lhs)){ //int
-        VARVAL_OP_ACTION(int, lhs_int, *, int, &rhs, int)
-        VARVAL_OP_ACTION(int, lhs_int, *, unsigned int, &rhs, uint)
-        VARVAL_OP_ACTION(int, lhs_int, *, short int, &rhs, short)
-        VARVAL_OP_ACTION(int, lhs_int, *, long int, &rhs, long)
-        VARVAL_OP_ACTION(int, lhs_int, *, float, &rhs, float)
-        VARVAL_OP_ACTION(int, lhs_int, *, double, &rhs, double)
+    if(const Copper::CopperINT* lhs_int = std::get_if<Copper::CopperINT>(&lhs)){ //int
+        VARVAL_OP_ACTION(Copper::CopperINT, int, lhs_int, *, Copper::CopperINT, rhs, int)
+        VARVAL_OP_ACTION(Copper::CopperINT, int, lhs_int, *, Copper::CopperUINT, rhs, uint)
+        VARVAL_OP_ACTION(Copper::CopperINT, int, lhs_int, *, Copper::CopperSHORT,  rhs, short)
+        VARVAL_OP_ACTION(Copper::CopperINT, int, lhs_int, *, Copper::CopperLONG, rhs, long)
+        VARVAL_OP_ACTION(Copper::CopperINT, int, lhs_int, *, Copper::CopperFLOAT, rhs, float)
+        VARVAL_OP_ACTION(Copper::CopperINT, int, lhs_int, *, Copper::CopperDOUBLE, rhs, double)
     }
 
-    else if(const unsigned int* lhs_uint = std::get_if<unsigned int>(&lhs)){ //uint
-        VARVAL_OP_ACTION(unsigned int, lhs_uint, *, int, &rhs, int)
-        VARVAL_OP_ACTION(unsigned int, lhs_uint, *, unsigned int, &rhs, uint)
-        VARVAL_OP_ACTION(unsigned int, lhs_uint, *, short int, &rhs, short)
-        VARVAL_OP_ACTION(unsigned int, lhs_uint, *, long int, &rhs, long)
-        VARVAL_OP_ACTION(unsigned int, lhs_uint, *, float, &rhs, float)
-        VARVAL_OP_ACTION(unsigned int, lhs_uint, *, double, &rhs, double)
+    else if(const Copper::CopperUINT* lhs_uint = std::get_if<Copper::CopperUINT>(&lhs)){ //uint
+        VARVAL_OP_ACTION(Copper::CopperUINT, unsigned int, lhs_uint, *, Copper::CopperINT, rhs, int)
+        VARVAL_OP_ACTION(Copper::CopperUINT, unsigned int, lhs_uint, *, Copper::CopperUINT, rhs, uint)
+        VARVAL_OP_ACTION(Copper::CopperUINT, unsigned int, lhs_uint, *, Copper::CopperSHORT,  rhs, short)
+        VARVAL_OP_ACTION(Copper::CopperUINT, unsigned int, lhs_uint, *, Copper::CopperLONG, rhs, long)
+        VARVAL_OP_ACTION(Copper::CopperUINT, unsigned int, lhs_uint, *, Copper::CopperFLOAT, rhs, float)
+        VARVAL_OP_ACTION(Copper::CopperUINT, unsigned int, lhs_uint, *, Copper::CopperDOUBLE, rhs, double)
     }
 
-    else if(const short int* lhs_short = std::get_if<short int>(&lhs)){ //short
-        VARVAL_OP_ACTION(short int, lhs_short, *, int, &rhs, int)
-        VARVAL_OP_ACTION(short int, lhs_short, *, unsigned int, &rhs, uint)
-        VARVAL_OP_ACTION(short int, lhs_short, *, short int, &rhs, short)
-        VARVAL_OP_ACTION(short int, lhs_short, *, long int, &rhs, long)
-        VARVAL_OP_ACTION(short int, lhs_short, *, float, &rhs, float)
-        VARVAL_OP_ACTION(short int, lhs_short, *, double, &rhs, double)
+    else if(const Copper::CopperSHORT* lhs_short = std::get_if<Copper::CopperSHORT>(&lhs)){ //short
+        VARVAL_OP_ACTION(Copper::CopperSHORT, short int, lhs_short, *, Copper::CopperINT, rhs, int)
+        VARVAL_OP_ACTION(Copper::CopperSHORT, short int, lhs_short, *, Copper::CopperUINT, rhs, uint)
+        VARVAL_OP_ACTION(Copper::CopperSHORT, short int, lhs_short, *, Copper::CopperSHORT,  rhs, short)
+        VARVAL_OP_ACTION(Copper::CopperSHORT, short int, lhs_short, *, Copper::CopperLONG, rhs, long)
+        VARVAL_OP_ACTION(Copper::CopperSHORT, short int, lhs_short, *, Copper::CopperFLOAT, rhs, float)
+        VARVAL_OP_ACTION(Copper::CopperSHORT, short int, lhs_short, *, Copper::CopperDOUBLE, rhs, double)
     }
 
-    else if(const long int* lhs_long = std::get_if<long int>(&lhs)){ //long
-        VARVAL_OP_ACTION(long int, lhs_long, *, int, &rhs, int)
-        VARVAL_OP_ACTION(long int, lhs_long, *, unsigned int, &rhs, uint)
-        VARVAL_OP_ACTION(long int, lhs_long, *, short int, &rhs, short)
-        VARVAL_OP_ACTION(long int, lhs_long, *, long int, &rhs, long)
-        VARVAL_OP_ACTION(long int, lhs_long, *, float, &rhs, float)
-        VARVAL_OP_ACTION(long int, lhs_long, *, double, &rhs, double)
+    else if(const Copper::CopperLONG* lhs_long = std::get_if<Copper::CopperLONG>(&lhs)){ //long
+        VARVAL_OP_ACTION(Copper::CopperLONG, long int, lhs_long, *, Copper::CopperINT, rhs, int)
+        VARVAL_OP_ACTION(Copper::CopperLONG, long int, lhs_long, *, Copper::CopperUINT, rhs, uint)
+        VARVAL_OP_ACTION(Copper::CopperLONG, long int, lhs_long, *, Copper::CopperSHORT, rhs, short)
+        VARVAL_OP_ACTION(Copper::CopperLONG, long int, lhs_long, *, Copper::CopperLONG, rhs, long)
+        VARVAL_OP_ACTION(Copper::CopperLONG, long int, lhs_long, *, Copper::CopperFLOAT, rhs, float)
+        VARVAL_OP_ACTION(Copper::CopperLONG, long int, lhs_long, *, Copper::CopperDOUBLE, rhs, double)
     }
 
-    else if(const float* lhs_float = std::get_if<float>(&lhs)){ //float
-        VARVAL_OP_ACTION(float, lhs_float, *, int, &rhs, int)
-        VARVAL_OP_ACTION(float, lhs_float, *, unsigned int, &rhs, uint)
-        VARVAL_OP_ACTION(float, lhs_float, *, short int, &rhs, short)
-        VARVAL_OP_ACTION(float, lhs_float, *, long int, &rhs, long)
-        VARVAL_OP_ACTION(float, lhs_float, *, float, &rhs, float)
-        VARVAL_OP_ACTION(float, lhs_float, *, double, &rhs, double)
+    else if(const Copper::CopperFLOAT* lhs_float = std::get_if<Copper::CopperFLOAT>(&lhs)){ //float
+        VARVAL_OP_ACTION(Copper::CopperFLOAT, float, lhs_float, *, Copper::CopperINT, rhs, int)
+        VARVAL_OP_ACTION(Copper::CopperFLOAT, float, lhs_float, *, Copper::CopperUINT, rhs, uint)
+        VARVAL_OP_ACTION(Copper::CopperFLOAT, float, lhs_float, *, Copper::CopperSHORT, rhs, short)
+        VARVAL_OP_ACTION(Copper::CopperFLOAT, float, lhs_float, *, Copper::CopperLONG, rhs, long)
+        VARVAL_OP_ACTION(Copper::CopperFLOAT, float, lhs_float, *, Copper::CopperFLOAT, rhs, float)
+        VARVAL_OP_ACTION(Copper::CopperFLOAT, float, lhs_float, *, Copper::CopperDOUBLE, rhs, double)
     }
 
-    else if(const double* lhs_double = std::get_if<double>(&lhs)){ //double
-        VARVAL_OP_ACTION(double, lhs_double, *, int, &rhs, int)
-        VARVAL_OP_ACTION(double, lhs_double, *, unsigned int, &rhs, uint)
-        VARVAL_OP_ACTION(double, lhs_double, *, short int, &rhs, short)
-        VARVAL_OP_ACTION(double, lhs_double, *, long int, &rhs, long)
-        VARVAL_OP_ACTION(double, lhs_double, *, float, &rhs, float)
-        VARVAL_OP_ACTION(double, lhs_double, *, double, &rhs, double)
+    else if(const Copper::CopperDOUBLE* lhs_double = std::get_if<Copper::CopperDOUBLE>(&lhs)){ //double
+        VARVAL_OP_ACTION(Copper::CopperDOUBLE, double, lhs_double, *, Copper::CopperINT, rhs, int)
+        VARVAL_OP_ACTION(Copper::CopperDOUBLE, double, lhs_double, *, Copper::CopperUINT, rhs, uint)
+        VARVAL_OP_ACTION(Copper::CopperDOUBLE, double, lhs_double, *, Copper::CopperSHORT, rhs, short)
+        VARVAL_OP_ACTION(Copper::CopperDOUBLE, double, lhs_double, *, Copper::CopperLONG, rhs, long)
+        VARVAL_OP_ACTION(Copper::CopperDOUBLE, double, lhs_double, *, Copper::CopperFLOAT, rhs, float)
+        VARVAL_OP_ACTION(Copper::CopperDOUBLE, double, lhs_double, *, Copper::CopperDOUBLE, rhs, double)
     }
 
     throw std::runtime_error("Unsupported types for getting product of numbers");
@@ -210,58 +211,58 @@ inline const VarVal VarValProd(const VarVal& lhs, const VarVal& rhs){
 
 inline const VarVal VarValQuot(const VarVal& lhs, const VarVal& rhs){
     //numbers
-    if(const int* lhs_int = std::get_if<int>(&lhs)){ //int
-        VARVAL_OP_ACTION(int, lhs_int, /, int, &rhs, int)
-        VARVAL_OP_ACTION(int, lhs_int, /, unsigned int, &rhs, uint)
-        VARVAL_OP_ACTION(int, lhs_int, /, short int, &rhs, short)
-        VARVAL_OP_ACTION(int, lhs_int, /, long int, &rhs, long)
-        VARVAL_OP_ACTION(int, lhs_int, /, float, &rhs, float)
-        VARVAL_OP_ACTION(int, lhs_int, /, double, &rhs, double)
+   if(const Copper::CopperINT* lhs_int = std::get_if<Copper::CopperINT>(&lhs)){ //int
+        VARVAL_OP_ACTION(Copper::CopperINT, int, lhs_int, /, Copper::CopperINT, rhs, int)
+        VARVAL_OP_ACTION(Copper::CopperINT, int, lhs_int, /, Copper::CopperUINT, rhs, uint)
+        VARVAL_OP_ACTION(Copper::CopperINT, int, lhs_int, /, Copper::CopperSHORT,  rhs, short)
+        VARVAL_OP_ACTION(Copper::CopperINT, int, lhs_int, /, Copper::CopperLONG, rhs, long)
+        VARVAL_OP_ACTION(Copper::CopperINT, int, lhs_int, /, Copper::CopperFLOAT, rhs, float)
+        VARVAL_OP_ACTION(Copper::CopperINT, int, lhs_int, /, Copper::CopperDOUBLE, rhs, double)
     }
 
-    else if(const unsigned int* lhs_uint = std::get_if<unsigned int>(&lhs)){ //uint
-        VARVAL_OP_ACTION(unsigned int, lhs_uint, /, int, &rhs, int)
-        VARVAL_OP_ACTION(unsigned int, lhs_uint, /, unsigned int, &rhs, uint)
-        VARVAL_OP_ACTION(unsigned int, lhs_uint, /, short int, &rhs, short)
-        VARVAL_OP_ACTION(unsigned int, lhs_uint, /, long int, &rhs, long)
-        VARVAL_OP_ACTION(unsigned int, lhs_uint, /, float, &rhs, float)
-        VARVAL_OP_ACTION(unsigned int, lhs_uint, /, double, &rhs, double)
+    else if(const Copper::CopperUINT* lhs_uint = std::get_if<Copper::CopperUINT>(&lhs)){ //uint
+        VARVAL_OP_ACTION(Copper::CopperUINT, unsigned int, lhs_uint, /, Copper::CopperINT, rhs, int)
+        VARVAL_OP_ACTION(Copper::CopperUINT, unsigned int, lhs_uint, /, Copper::CopperUINT, rhs, uint)
+        VARVAL_OP_ACTION(Copper::CopperUINT, unsigned int, lhs_uint, /, Copper::CopperSHORT,  rhs, short)
+        VARVAL_OP_ACTION(Copper::CopperUINT, unsigned int, lhs_uint, /, Copper::CopperLONG, rhs, long)
+        VARVAL_OP_ACTION(Copper::CopperUINT, unsigned int, lhs_uint, /, Copper::CopperFLOAT, rhs, float)
+        VARVAL_OP_ACTION(Copper::CopperUINT, unsigned int, lhs_uint, /, Copper::CopperDOUBLE, rhs, double)
     }
 
-    else if(const short int* lhs_short = std::get_if<short int>(&lhs)){ //short
-        VARVAL_OP_ACTION(short int, lhs_short, /, int, &rhs, int)
-        VARVAL_OP_ACTION(short int, lhs_short, /, unsigned int, &rhs, uint)
-        VARVAL_OP_ACTION(short int, lhs_short, /, short int, &rhs, short)
-        VARVAL_OP_ACTION(short int, lhs_short, /, long int, &rhs, long)
-        VARVAL_OP_ACTION(short int, lhs_short, /, float, &rhs, float)
-        VARVAL_OP_ACTION(short int, lhs_short, /, double, &rhs, double)
+    else if(const Copper::CopperSHORT* lhs_short = std::get_if<Copper::CopperSHORT>(&lhs)){ //short
+        VARVAL_OP_ACTION(Copper::CopperSHORT, short int, lhs_short, /, Copper::CopperINT, rhs, int)
+        VARVAL_OP_ACTION(Copper::CopperSHORT, short int, lhs_short, /, Copper::CopperUINT, rhs, uint)
+        VARVAL_OP_ACTION(Copper::CopperSHORT, short int, lhs_short, /, Copper::CopperSHORT,  rhs, short)
+        VARVAL_OP_ACTION(Copper::CopperSHORT, short int, lhs_short, /, Copper::CopperLONG, rhs, long)
+        VARVAL_OP_ACTION(Copper::CopperSHORT, short int, lhs_short, /, Copper::CopperFLOAT, rhs, float)
+        VARVAL_OP_ACTION(Copper::CopperSHORT, short int, lhs_short, /, Copper::CopperDOUBLE, rhs, double)
     }
 
-    else if(const long int* lhs_long = std::get_if<long int>(&lhs)){ //long
-        VARVAL_OP_ACTION(long int, lhs_long, /, int, &rhs, int)
-        VARVAL_OP_ACTION(long int, lhs_long, /, unsigned int, &rhs, uint)
-        VARVAL_OP_ACTION(long int, lhs_long, /, short int, &rhs, short)
-        VARVAL_OP_ACTION(long int, lhs_long, /, long int, &rhs, long)
-        VARVAL_OP_ACTION(long int, lhs_long, /, float, &rhs, float)
-        VARVAL_OP_ACTION(long int, lhs_long, /, double, &rhs, double)
+    else if(const Copper::CopperLONG* lhs_long = std::get_if<Copper::CopperLONG>(&lhs)){ //long
+        VARVAL_OP_ACTION(Copper::CopperLONG, long int, lhs_long, /, Copper::CopperINT, rhs, int)
+        VARVAL_OP_ACTION(Copper::CopperLONG, long int, lhs_long, /, Copper::CopperUINT, rhs, uint)
+        VARVAL_OP_ACTION(Copper::CopperLONG, long int, lhs_long, /, Copper::CopperSHORT, rhs, short)
+        VARVAL_OP_ACTION(Copper::CopperLONG, long int, lhs_long, /, Copper::CopperLONG, rhs, long)
+        VARVAL_OP_ACTION(Copper::CopperLONG, long int, lhs_long, /, Copper::CopperFLOAT, rhs, float)
+        VARVAL_OP_ACTION(Copper::CopperLONG, long int, lhs_long, /, Copper::CopperDOUBLE, rhs, double)
     }
 
-    else if(const float* lhs_float = std::get_if<float>(&lhs)){ //float
-        VARVAL_OP_ACTION(float, lhs_float, /, int, &rhs, int)
-        VARVAL_OP_ACTION(float, lhs_float, /, unsigned int, &rhs, uint)
-        VARVAL_OP_ACTION(float, lhs_float, /, short int, &rhs, short)
-        VARVAL_OP_ACTION(float, lhs_float, /, long int, &rhs, long)
-        VARVAL_OP_ACTION(float, lhs_float, /, float, &rhs, float)
-        VARVAL_OP_ACTION(float, lhs_float, /, double, &rhs, double)
+    else if(const Copper::CopperFLOAT* lhs_float = std::get_if<Copper::CopperFLOAT>(&lhs)){ //float
+        VARVAL_OP_ACTION(Copper::CopperFLOAT, float, lhs_float, /, Copper::CopperINT, rhs, int)
+        VARVAL_OP_ACTION(Copper::CopperFLOAT, float, lhs_float, /, Copper::CopperUINT, rhs, uint)
+        VARVAL_OP_ACTION(Copper::CopperFLOAT, float, lhs_float, /, Copper::CopperSHORT, rhs, short)
+        VARVAL_OP_ACTION(Copper::CopperFLOAT, float, lhs_float, /, Copper::CopperLONG, rhs, long)
+        VARVAL_OP_ACTION(Copper::CopperFLOAT, float, lhs_float, /, Copper::CopperFLOAT, rhs, float)
+        VARVAL_OP_ACTION(Copper::CopperFLOAT, float, lhs_float, /, Copper::CopperDOUBLE, rhs, double)
     }
 
-    else if(const double* lhs_double = std::get_if<double>(&lhs)){ //double
-        VARVAL_OP_ACTION(double, lhs_double, /, int, &rhs, int)
-        VARVAL_OP_ACTION(double, lhs_double, /, unsigned int, &rhs, uint)
-        VARVAL_OP_ACTION(double, lhs_double, /, short int, &rhs, short)
-        VARVAL_OP_ACTION(double, lhs_double, /, long int, &rhs, long)
-        VARVAL_OP_ACTION(double, lhs_double, /, float, &rhs, float)
-        VARVAL_OP_ACTION(double, lhs_double, /, double, &rhs, double)
+    else if(const Copper::CopperDOUBLE* lhs_double = std::get_if<Copper::CopperDOUBLE>(&lhs)){ //double
+        VARVAL_OP_ACTION(Copper::CopperDOUBLE, double, lhs_double, /, Copper::CopperINT, rhs, int)
+        VARVAL_OP_ACTION(Copper::CopperDOUBLE, double, lhs_double, /, Copper::CopperUINT, rhs, uint)
+        VARVAL_OP_ACTION(Copper::CopperDOUBLE, double, lhs_double, /, Copper::CopperSHORT, rhs, short)
+        VARVAL_OP_ACTION(Copper::CopperDOUBLE, double, lhs_double, /, Copper::CopperLONG, rhs, long)
+        VARVAL_OP_ACTION(Copper::CopperDOUBLE, double, lhs_double, /, Copper::CopperFLOAT, rhs, float)
+        VARVAL_OP_ACTION(Copper::CopperDOUBLE, double, lhs_double, /, Copper::CopperDOUBLE, rhs, double)
     }
 
     throw std::runtime_error("Unsupported types for getting quotient of numbers");

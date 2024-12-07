@@ -8,9 +8,9 @@ namespace Copper{
 
     VarVal Parser::factor(){
         if(token.type == TokenType::Number){
-            float num = std::stof(token.value);
+            double num = std::stod(token.value);
             goNext();
-            return num;
+            return Copper::CopperDOUBLE(num);
         }
         if(token.type == TokenType::Text){
             std::string text = token.value;
@@ -20,14 +20,14 @@ namespace Copper{
         if(token.type == TokenType::SingleCharText){
             std::string justChar = std::string(1, token.value[0]);
             goNext();
-            return (int)justChar[0];
+            return Copper::CopperINT((int)justChar[0]);
         }
 
         if(token.type == TokenType::Plus || token.type == TokenType::Minus){
             std::string sign = token.value;
             goNext();
-            float value = std::get<float>(factor());
-            return (sign == "-") ? -value : value;
+            double value = std::get<Copper::CopperFLOAT>(factor()).value;
+            return Copper::CopperDOUBLE((sign == "-") ? -value : value);
         }
 
         if(token.type == TokenType::Identifier){
