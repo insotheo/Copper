@@ -28,7 +28,7 @@ namespace Copper{
         else if(token.type == TokenType::Identifier){
             std::string identifier = token.value;
             goNext();
-            if(token.type == TokenType::ValueSetter){
+            if(token.type == TokenType::ValueAssignment){
                 ParseAssignment(identifier);
             }
         }

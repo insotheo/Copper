@@ -133,7 +133,7 @@ namespace Copper{
                     throw std::runtime_error("Unterminated char at position: " + std::to_string(pos) + "!");
                 }
             }
-            case '=': pos++; return {TokenType::ValueSetter, "="};
+            case '=': pos++; return {TokenType::ValueAssignment, "="};
 
             }
 
