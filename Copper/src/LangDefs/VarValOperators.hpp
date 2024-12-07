@@ -267,32 +267,39 @@ inline const VarVal VarValQuot(const VarVal& lhs, const VarVal& rhs){
     throw std::runtime_error("Unsupported types for getting quotient of numbers");
 }
 
-inline double VarValGetNumberAsDouble(const VarVal& value){
-    if(const int* val_int = std::get_if<int>(&value)){
-        return static_cast<double>(*val_int);
+inline const VarVal ConvertVarValToCorrectType(const Copper::DataType& gType, const VarVal& value, const Copper::DataType& tType) { //gType stands for given type and tType stands for target type
+    VarVal result;
+    
+    if(!((IS_NUMBER_TYPE(gType) && IS_NUMBER_TYPE(tType)) || //number to number
+        (IS_STRING_OR_CHAR_TYPE(gType) && IS_STRING_OR_CHAR_TYPE(tType)) || //string or char to string or char
+        (gType == Copper::DataType::CHAR && (IS_NUMBER_TYPE(tType) && !IS_DECIMAL_NUMBER_TYPE(tType))) || //char to number
+        ((IS_NUMBER_TYPE(gType) && !IS_DECIMAL_NUMBER_TYPE(gType)) && tType == Copper::DataType::CHAR) || // number to char
+        (IS_NUMBER_TYPE(gType) && tType == Copper::DataType::BOOLEAN) // number to boolean
+    )){
+        throw std::runtime_error("Implicit conversion cannot be performed");
     }
 
-    else if(const unsigned int* val_uint = std::get_if<unsigned int>(&value)){
-        return static_cast<double>(*val_uint);
+    if(IS_NUMBER_TYPE(gType) && IS_NUMBER_TYPE(tType)){ //number to number
+        
     }
 
-    else if(const short int* val_short = std::get_if<short int>(&value)){
-        return static_cast<double>(*val_short);
+    else if(IS_STRING_OR_CHAR_TYPE(gType) && IS_STRING_OR_CHAR_TYPE(tType)){ //string or char to string or char
+
     }
 
-    else if(const long int* val_long = std::get_if<long int>(&value)){
-        return static_cast<double>(*val_long);
+    else if(gType == Copper::DataType::CHAR && (IS_NUMBER_TYPE(tType) && !IS_DECIMAL_NUMBER_TYPE(tType))){ // char to number
+
     }
 
-    else if(const float* val_float = std::get_if<float>(&value)){
-        return static_cast<double>(*val_float);
+    else if((IS_NUMBER_TYPE(gType) && !IS_DECIMAL_NUMBER_TYPE(gType)) && tType == Copper::DataType::CHAR){ // number to char
+
     }
 
-    else if(const double* val_double = std::get_if<double>(&value)){
-        return *val_double;
+    else if(IS_NUMBER_TYPE(gType) && tType == Copper::DataType::BOOLEAN){ //number to boolean
+
     }
 
-    throw std::runtime_error("Unsupported types for turning into number");
+    return result;
 }
 
 #endif

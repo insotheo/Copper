@@ -39,7 +39,7 @@ namespace Copper{
         m_expressionStopToken = TokenType::CommandEnd;
         VarVal value = ParseExpression();
         m_expressionStopToken = TokenType::None;
-        m_VarsManager.GetVariable(identifier)->SetValue(value);
+        m_VarsManager.GetVariable(identifier)->SetValue(value, GetVarValType(&value));
     }
 
     void Parser::ParseVariableDeclaration(){

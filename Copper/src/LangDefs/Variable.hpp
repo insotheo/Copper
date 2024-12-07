@@ -8,6 +8,7 @@
 #include "Token/Token.hpp"
 #include "Token/TokenType.hpp"
 #include "LangDefs/DataTypes.hpp"
+#include "LangDefs/VarValOperators.hpp"
 
 namespace Copper {
 
@@ -16,7 +17,7 @@ namespace Copper {
         Variable(const DataType& type) : m_Type(type) {}
 
         inline VarVal GetValue() { return m_Val; }
-        void SetValue(const VarVal& value);
+        void SetValue(const VarVal& value, const DataType& type);
 
         DataType GetType() const { return m_Type; }
 
