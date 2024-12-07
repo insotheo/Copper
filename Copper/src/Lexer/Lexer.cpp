@@ -55,8 +55,20 @@ namespace Copper{
                 if(identifier == "int"){
                     return {TokenType::INT, "int"};
                 }
+                else if(identifier == "uint"){
+                    return {TokenType::UINT, "uint"};
+                }
+                else if(identifier == "short"){
+                    return {TokenType::SHORT, "short"};
+                }
+                else if(identifier == "long"){
+                    return {TokenType::LONG, "long"};
+                }
                 else if(identifier == "float"){
                     return {TokenType::FLOAT, "float"};
+                }
+                else if(identifier == "double"){
+                    return {TokenType::DOUBLE, "double"};
                 }
                 else if(identifier == "bool"){
                     return {TokenType::BOOLEAN, "bool"};

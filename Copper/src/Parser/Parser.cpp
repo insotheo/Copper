@@ -48,11 +48,7 @@ namespace Copper{
         DataType type;
 
         while(token.type != TokenType::Identifier){
-            if(token.type == TokenType::INT 
-            || token.type == TokenType::FLOAT
-            || token.type == TokenType::STRING
-            || token.type == TokenType::CHAR
-            || token.type == TokenType::BOOLEAN){
+            if(IsDataType(token.type)){
                 type = TokenToDataType(token.type);
             }
             else{

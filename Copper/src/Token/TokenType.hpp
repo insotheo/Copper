@@ -14,7 +14,7 @@ namespace Copper{
 
         //KeyWords
         LET,
-        INT, FLOAT, STRING, CHAR, BOOLEAN,
+        INT, UINT, SHORT, LONG, FLOAT, DOUBLE, STRING, CHAR, BOOLEAN,
 
         //Logic
         TRUE, FALSE,
