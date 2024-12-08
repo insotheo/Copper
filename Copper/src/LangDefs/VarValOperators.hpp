@@ -281,7 +281,23 @@ inline const VarVal ConvertVarValToCorrectType(const Copper::DataType& gType, co
     }
 
     if(IS_NUMBER_TYPE(gType) && IS_NUMBER_TYPE(tType)){ //number to number
-        
+        result = std::visit([&tType](const auto& arg) -> const VarVal{
+            using T = std::decay_t<decltype(arg.value)>;
+            Copper::CopperNumberType<T> number(arg.value);
+            
+            return std::visit([&tType](const auto& v) -> const VarVal{
+                switch(tType){
+                    case Copper::DataType::INT:     return Copper::CopperINT(static_cast<int>(v));
+                    case Copper::DataType::UINT:    return Copper::CopperUINT(static_cast<unsigned int>(v));
+                    case Copper::DataType::SHORT:   return Copper::CopperSHORT(static_cast<short int>(v));
+                    case Copper::DataType::LONG:    return Copper::CopperLONG(static_cast<long int>(v));
+                    case Copper::DataType::FLOAT:   return Copper::CopperFLOAT(static_cast<float>(v));
+                    case Copper::DataType::DOUBLE:  return Copper::CopperDOUBLE(static_cast<double>(v));
+
+                    default: throw std::runtime_error("Implicit conversion cannot be performed");
+                }
+            }, number.getValue());
+        }, value);
     }
 
     else if(IS_STRING_OR_CHAR_TYPE(gType) && IS_STRING_OR_CHAR_TYPE(tType)){ //string or char to string or char
