@@ -1,6 +1,6 @@
 #include "LangDefs/Variable.hpp"
 
-namespace Copper{
+namespace Herbata{
 
     void VariablesManager::CreateVariable(const std::string& identifier, const DataType& type){
         m_Vars.emplace_back(VarStruct{identifier, new Variable(type)});

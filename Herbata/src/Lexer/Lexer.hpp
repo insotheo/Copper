@@ -9,7 +9,7 @@
 
 #include "Token/Token.hpp"
 
-namespace Copper{
+namespace Herbata{
 
     class Lexer{
     public:

@@ -32,8 +32,8 @@ int main(int argc, char* argv[]){
 
         // std::cout << input << "\n"; -- dbg only
 
-        Copper::Lexer lexer(input);
-        Copper::Parser parser(lexer);
+        Herbata::Lexer lexer(input);
+        Herbata::Parser parser(lexer);
         parser.Parse();
     }
     catch(std::runtime_error& err){

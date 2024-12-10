@@ -1,6 +1,6 @@
 #include "Variable.hpp"
 
-namespace Copper{
+namespace Herbata{
 
     void Variable::SetValue(const VarVal& value, const DataType& type){
         if(m_Type == type){

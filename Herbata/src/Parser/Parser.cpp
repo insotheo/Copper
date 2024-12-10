@@ -1,6 +1,6 @@
 #include "Parser/Parser.hpp"
 
-namespace Copper{
+namespace Herbata{
 
     void Parser::Parse(){
         goNext();

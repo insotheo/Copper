@@ -11,7 +11,7 @@
 #include "LangDefs/TopDataTypes.hpp"
 #include "LangDefs/VarValOperators.hpp"
 
-namespace Copper {
+namespace Herbata {
 
     class Variable {
     public:

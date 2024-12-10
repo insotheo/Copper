@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(Copper VERSION 0.0.0)
+project(Herbata VERSION 0.0.0)
 
 file(GLOB SOURCES
 src/*.cpp
@@ -17,6 +17,6 @@ src/Parser/*.hpp
 src/LangDefs/*.hpp
 )
 
-add_executable("copper" "${SOURCES}" "${HEADERS}")
+add_executable("herbata" "${SOURCES}" "${HEADERS}")
 
 include_directories(src/)

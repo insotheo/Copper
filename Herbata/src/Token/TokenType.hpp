@@ -1,7 +1,7 @@
 #ifndef TOKEN_TYPE_HPP
 #define TOKEN_TYPE_HPP
 
-namespace Copper{
+namespace Herbata{
 
     enum class TokenType{
         Plus, Minus, Multiply, Divide, LeftParen, RightParen, FloatPoint, //Default math's tokens

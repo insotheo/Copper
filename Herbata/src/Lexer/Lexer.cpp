@@ -1,6 +1,6 @@
 #include "Lexer/Lexer.hpp"
 
-namespace Copper{
+namespace Herbata{
 
     Token Lexer::NextToken(){
         while(pos < text.size()){

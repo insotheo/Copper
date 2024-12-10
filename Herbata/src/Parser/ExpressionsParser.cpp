@@ -1,6 +1,6 @@
 #include "Parser/Parser.hpp"
 
-namespace Copper{
+namespace Herbata{
 
     VarVal Parser::ParseExpression(){
         return expression();
@@ -10,7 +10,7 @@ namespace Copper{
         if(token.type == TokenType::Number){
             double num = std::stod(token.value);
             goNext();
-            return Copper::CopperDOUBLE(num);
+            return Herbata::HerbataDOUBLE(num);
         }
         if(token.type == TokenType::Text){
             std::string text = token.value;
@@ -20,14 +20,14 @@ namespace Copper{
         if(token.type == TokenType::SingleCharText){
             std::string justChar = std::string(1, token.value[0]);
             goNext();
-            return Copper::CopperINT((int)justChar[0]);
+            return Herbata::HerbataINT((int)justChar[0]);
         }
 
         if(token.type == TokenType::Plus || token.type == TokenType::Minus){
             std::string sign = token.value;
             goNext();
-            double value = std::get<Copper::CopperFLOAT>(factor()).value;
-            return Copper::CopperDOUBLE((sign == "-") ? -value : value);
+            double value = std::get<Herbata::HerbataFLOAT>(factor()).value;
+            return Herbata::HerbataDOUBLE((sign == "-") ? -value : value);
         }
 
         if(token.type == TokenType::Identifier){

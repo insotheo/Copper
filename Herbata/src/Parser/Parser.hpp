@@ -12,7 +12,7 @@
 #include "LangDefs/DataTypes.hpp"
 #include "LangDefs/VarValOperators.hpp"
 
-namespace Copper{
+namespace Herbata{
 
     class Parser{
     public:

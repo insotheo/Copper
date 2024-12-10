@@ -5,7 +5,7 @@
 
 #include "Token/TokenType.hpp"
 
-namespace Copper{
+namespace Herbata{
 
     struct Token
     {
