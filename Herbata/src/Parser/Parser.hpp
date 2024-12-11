@@ -3,8 +3,11 @@
 
 #include <iostream>
 #include <string>
+#include <limits>
+#include <iomanip>
 #include <utility>
 #include <memory>
+#include <variant>
 
 #include "Token/TokenType.hpp"
 #include "Lexer/Lexer.hpp"

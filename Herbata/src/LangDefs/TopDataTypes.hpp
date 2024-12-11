@@ -12,7 +12,7 @@ namespace Herbata{
         HerbataNumberType(const T& val) : value(val){} 
         HerbataNumberType() : value(){}
 
-        inline std::variant<int, unsigned int, short int, long int, float, double> getValue() const {
+        inline std::variant<int, unsigned int, short int, long long, float, double> getValue() const {
             using F = std::decay_t<decltype(value)>;
             
             if constexpr(std::is_same_v<F, int>){
@@ -24,8 +24,8 @@ namespace Herbata{
             else if constexpr(std::is_same_v<F, short int>){
                 return static_cast<short int>(value);
             }
-            else if constexpr(std::is_same_v<F, long int>){
-                return static_cast<long int>(value);
+            else if constexpr(std::is_same_v<F, long long>){
+                return static_cast<long long>(value);
             }
             else if constexpr(std::is_same_v<F, float>){
                 return static_cast<float>(value);
@@ -65,12 +65,12 @@ namespace Herbata{
         HerbataSHORT() : HerbataNumberType<short int>(){} 
     };
 
-    struct HerbataLONG : public HerbataNumberType<long int>
+    struct HerbataLONG : public HerbataNumberType<long long>
     {
-        HerbataLONG(const long int& val) : HerbataNumberType<long int>(val){}
-        HerbataLONG(const HerbataLONG& parent) : HerbataNumberType<long int>(parent.value) {}
-        HerbataLONG(const HerbataNumberType<long int>& parent) : HerbataNumberType<long int>(parent){}
-        HerbataLONG() : HerbataNumberType<long int>(){}
+        HerbataLONG(const long long& val) : HerbataNumberType<long long>(val){}
+        HerbataLONG(const HerbataLONG& parent) : HerbataNumberType<long long>(parent.value) {}
+        HerbataLONG(const HerbataNumberType<long long>& parent) : HerbataNumberType<long long>(parent){}
+        HerbataLONG() : HerbataNumberType<long long>(){}
     };
 
     struct HerbataFLOAT : public HerbataNumberType<float>

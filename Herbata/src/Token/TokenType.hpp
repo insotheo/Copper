@@ -5,7 +5,7 @@ namespace Herbata{
 
     enum class TokenType{
         Plus, Minus, Multiply, Divide, LeftParen, RightParen, FloatPoint, //Default math's tokens
-        Number, Identifier, 
+        Number, DecimalNumber, Identifier, 
         Invalid, None, CommandEnd, End, ValueAssignment,
         Text, SingleCharText, 
 

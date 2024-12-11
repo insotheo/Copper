@@ -6,45 +6,61 @@ namespace Herbata{
         return expression();
     }
 
-    VarVal Parser::factor(){
-        if(token.type == TokenType::Number){
-            double num = std::stod(token.value);
+    VarVal Parser::factor() {
+        if (token.type == TokenType::Number) {
+            const long long num = std::strtoll(token.value.c_str(), NULL, 10);
+            if (num >= SHRT_MIN && num <= SHRT_MAX) {
+                goNext();
+                return Herbata::HerbataSHORT(static_cast<short>(num));
+            } else if (num >= INT_MIN && num <= INT_MAX) {
+                goNext();
+                return Herbata::HerbataINT(static_cast<int>(num));
+            } else {
+                goNext();
+                return Herbata::HerbataLONG(static_cast<long long>(num));
+            }
+            
+            const long long* num_p = &num;
+            delete num_p;
+        }
+        else if (token.type == TokenType::DecimalNumber) {
+            const double num = std::strtod(token.value.c_str(), NULL);
             goNext();
             return Herbata::HerbataDOUBLE(num);
         }
-        if(token.type == TokenType::Text){
-            std::string text = token.value;
+        
+        if (token.type == TokenType::Text) {
+            const std::string text = token.value;
             goNext();
             return text;
         }
-        if(token.type == TokenType::SingleCharText){
-            std::string justChar = std::string(1, token.value[0]);
+
+        if (token.type == TokenType::SingleCharText) {
+            const std::string justChar = std::string(1, token.value[0]);
             goNext();
-            return Herbata::HerbataINT((int)justChar[0]);
+            return Herbata::HerbataINT(static_cast<int>(justChar[0]));
         }
 
-        if(token.type == TokenType::Plus || token.type == TokenType::Minus){
-            std::string sign = token.value;
+        if (token.type == TokenType::Plus || token.type == TokenType::Minus) {
+            const char sign = token.value[0];
             goNext();
-            double value = std::get<Herbata::HerbataFLOAT>(factor()).value;
-            return Herbata::HerbataDOUBLE((sign == "-") ? -value : value);
+            const VarVal value = factor();
+            return (sign == '-') ? VarValMakeNegative(value) : value;
         }
 
-        if(token.type == TokenType::Identifier){
-            std::string identifier = token.value;
+        if (token.type == TokenType::Identifier) {
+            const std::string identifier = token.value;
             goNext();
             return m_VarsManager.GetVariable(identifier)->GetValue();
         }
 
-        //TODO: Functions
-
-        if(token.type == TokenType::LeftParen){
-            goNext(); //left paren
+        if (token.type == TokenType::LeftParen) {
+            goNext(); // left paren
             VarVal result = expression();
-            goNext(); //right paren
+            goNext(); // right paren
             return result;
         }
-
+        
         throw std::runtime_error("Invalid syntax!");
     }
 

@@ -268,6 +268,10 @@ inline const VarVal VarValQuot(const VarVal& lhs, const VarVal& rhs){
     throw std::runtime_error("Unsupported types for getting quotient of numbers");
 }
 
+inline const VarVal VarValMakeNegative(const VarVal& value){
+    return VarValProd(value, Herbata::HerbataINT(-1));
+}
+
 inline const VarVal ConvertVarValToCorrectType(const Herbata::DataType& gType, const VarVal& value, const Herbata::DataType& tType) { //gType stands for given type and tType stands for target type
     VarVal result;
     

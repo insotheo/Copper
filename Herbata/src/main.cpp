@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -7,6 +8,7 @@
 #include "Parser/Parser.hpp"
 
 int main(int argc, char* argv[]){
+    std::cout << std::setprecision(15);
     try{
         if(argc != 2){
             throw std::runtime_error("Invalid arguments amount!");

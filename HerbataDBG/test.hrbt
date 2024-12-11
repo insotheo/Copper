@@ -1,3 +1,5 @@
-let double pi = 3.1415926535898;
-let uint R = 2;
+let short t = 32767;
+let double pi = 3.14;
+let short R = 2;
 let float area = pi * R * R;
+let float f_area = area;

@@ -39,7 +39,9 @@ namespace Herbata{
                             cChar = text[pos];
                         }
                     }
-
+                    if(hasDecimal){
+                        return {TokenType::DecimalNumber, num};
+                    }
                     return {TokenType::Number, num};
                 }
 

@@ -20,7 +20,7 @@ namespace Herbata{
         for (const auto var : m_Vars) {
             std::cout << (int)(var.Var->GetType()) << " " << var.Identifier;
             std::visit([](const auto& v) {
-                std::cout << " = " << v.value;
+                std::cout << " = " << v.value << " | " << sizeof(v) * 8 << "bit";
                 }, var.Var->GetValue());
             std::cout << "\n";
         }
