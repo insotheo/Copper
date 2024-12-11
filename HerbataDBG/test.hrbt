@@ -1,5 +1,4 @@
-let short t = 32767;
-let double pi = 3.14;
-let short R = 2;
-let float area = pi * R * R;
-let float f_area = area;
+let short x;
+x = 6;
+let short y = 4;
+let uint mod = x % y;

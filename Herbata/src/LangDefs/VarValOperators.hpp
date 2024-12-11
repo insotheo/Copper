@@ -268,6 +268,39 @@ inline const VarVal VarValQuot(const VarVal& lhs, const VarVal& rhs){
     throw std::runtime_error("Unsupported types for getting quotient of numbers");
 }
 
+inline const VarVal VarValMod(const VarVal& lhs, const VarVal& rhs){
+    //numbers
+   if(const Herbata::HerbataINT* lhs_int = std::get_if<Herbata::HerbataINT>(&lhs)){ //int
+        VARVAL_OP_ACTION(Herbata::HerbataINT, int, lhs_int, %, Herbata::HerbataINT, rhs, int)
+        VARVAL_OP_ACTION(Herbata::HerbataINT, int, lhs_int, %, Herbata::HerbataUINT, rhs, uint)
+        VARVAL_OP_ACTION(Herbata::HerbataINT, int, lhs_int, %, Herbata::HerbataSHORT,  rhs, short)
+        VARVAL_OP_ACTION(Herbata::HerbataINT, int, lhs_int, %, Herbata::HerbataLONG, rhs, long)
+    }
+
+    else if(const Herbata::HerbataUINT* lhs_uint = std::get_if<Herbata::HerbataUINT>(&lhs)){ //uint
+        VARVAL_OP_ACTION(Herbata::HerbataUINT, unsigned int, lhs_uint, %, Herbata::HerbataINT, rhs, int)
+        VARVAL_OP_ACTION(Herbata::HerbataUINT, unsigned int, lhs_uint, %, Herbata::HerbataUINT, rhs, uint)
+        VARVAL_OP_ACTION(Herbata::HerbataUINT, unsigned int, lhs_uint, %, Herbata::HerbataSHORT,  rhs, short)
+        VARVAL_OP_ACTION(Herbata::HerbataUINT, unsigned int, lhs_uint, %, Herbata::HerbataLONG, rhs, long)
+    }
+
+    else if(const Herbata::HerbataSHORT* lhs_short = std::get_if<Herbata::HerbataSHORT>(&lhs)){ //short
+        VARVAL_OP_ACTION(Herbata::HerbataSHORT, short int, lhs_short, %, Herbata::HerbataINT, rhs, int)
+        VARVAL_OP_ACTION(Herbata::HerbataSHORT, short int, lhs_short, %, Herbata::HerbataUINT, rhs, uint)
+        VARVAL_OP_ACTION(Herbata::HerbataSHORT, short int, lhs_short, %, Herbata::HerbataSHORT,  rhs, short)
+        VARVAL_OP_ACTION(Herbata::HerbataSHORT, short int, lhs_short, %, Herbata::HerbataLONG, rhs, long)
+    }
+
+    else if(const Herbata::HerbataLONG* lhs_long = std::get_if<Herbata::HerbataLONG>(&lhs)){ //long
+        VARVAL_OP_ACTION(Herbata::HerbataLONG, long int, lhs_long, %, Herbata::HerbataINT, rhs, int)
+        VARVAL_OP_ACTION(Herbata::HerbataLONG, long int, lhs_long, %, Herbata::HerbataUINT, rhs, uint)
+        VARVAL_OP_ACTION(Herbata::HerbataLONG, long int, lhs_long, %, Herbata::HerbataSHORT, rhs, short)
+        VARVAL_OP_ACTION(Herbata::HerbataLONG, long int, lhs_long, %, Herbata::HerbataLONG, rhs, long)
+    }
+
+    throw std::runtime_error("Modulo defined only for integers!");
+}
+
 inline const VarVal VarValMakeNegative(const VarVal& value){
     return VarValProd(value, Herbata::HerbataINT(-1));
 }

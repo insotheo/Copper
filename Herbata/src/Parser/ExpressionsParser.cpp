@@ -66,7 +66,7 @@ namespace Herbata{
 
     VarVal Parser::term(){
         VarVal result = factor();
-        while(token.type == TokenType::Multiply || token.type == TokenType::Divide){
+        while(token.type == TokenType::Multiply || token.type == TokenType::Divide || token.type == TokenType::Modulo){
             if(token.type == m_expressionStopToken){
                 return result;
             }
@@ -75,9 +75,13 @@ namespace Herbata{
                 goNext();
                 result = VarValProd(result, factor());
             }
-            else{
+            else if(token.type == TokenType::Divide){
                 goNext();
                 result = VarValQuot(result, factor());
+            }
+            else{ //Modulo
+                goNext();
+                result = VarValMod(result, factor());
             }
         }
         return result;

@@ -113,6 +113,7 @@ namespace Herbata{
                     return {TokenType::Divide, "/"};
                 }
             }
+            case '%': pos++; return {TokenType::Modulo, "%"};
             case '(': pos++; return {TokenType::LeftParen, "("};
             case ')': pos++; return {TokenType::RightParen, ")"};
             case '{': pos++; return {TokenType::RightBrace, "{"};
